@@ -55,7 +55,8 @@ class MaterialController {
       where: { id: req.params.id },
     });
 
-    if (!material[0]) return res.status(404).json({ error: 'user not found' });
+    if (!material[0])
+      return res.status(404).json({ error: 'material not found' });
 
     return res.json(material);
   }
@@ -66,7 +67,7 @@ class MaterialController {
     if (!id) return res.status(400).json({ error: 'id not provided' });
 
     const material = await Materials.destroy({ where: { id } });
-    if (!material) return res.status(404).json({ error: 'user not found' });
+    if (!material) return res.status(404).json({ error: 'material not found' });
 
     return res.json({ deleted: true });
   }

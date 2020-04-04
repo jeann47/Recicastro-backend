@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for models/Materials.js</title>
+    <title>Code coverage report for models/Employees.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">models</a> Materials.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">models</a> Employees.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -95,14 +95,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Sequelize, { Model } from 'sequelize';<span class="branch-0 cbranch-no" title="branch not covered" ></span>
 &nbsp;
-class Material extends Model {
+class Employee extends Model {
   static init(sequelize) {
     super.init(
       {
         name: Sequelize.STRING,
-        type: Sequelize.STRING,
-        buy_price: Sequelize.FLOAT,
-        sell_price: Sequelize.FLOAT,
+        days: Sequelize.ARRAY(Sequelize.DATE),
+        salary: Sequelize.FLOAT,
+        unpaid: Sequelize.INTEGER,
       },
       { sequelize }
     );
@@ -110,7 +110,7 @@ class Material extends Model {
   }
 }
 &nbsp;
-export default Material;
+export default Employee;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

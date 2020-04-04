@@ -19,13 +19,14 @@
   },
   "scripts": {
     "start": "nodemon src/server.js",
-    "pretest": "NODE_ENV=test sequelize db:migrate",
-    "test": "NODE_ENV=test jest",
-    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
+    "pretest": "NODE_ENV=test sequelize db:create; sequelize db:migrate",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all; sequelize db:drop"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "date-fns": "^2.11.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.0.0",

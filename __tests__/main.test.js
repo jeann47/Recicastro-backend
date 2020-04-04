@@ -149,3 +149,108 @@ describe('Materials', () => {
     });
   });
 });
+
+describe('Employees', () => {
+  it('should be able to add a employee row', async () => {
+    const employee = await factory.attrs('Employee');
+    const res = await request(app).post('/employee').send(employee);
+    expect(res.status).toBe(200);
+  });
+  it('should be able to find a employee by his id', async () => {
+    const employee = await factory.attrs('Employee');
+    const data = await request(app).post('/employee').send(employee);
+
+    const res = await request(app).get(`/employee/${data.body.id}`);
+    expect(res.status).toBe(200);
+  });
+
+  it('should be able to update a salary by employee id', async () => {
+    const employee = await factory.attrs('Employee');
+    const data = await request(app).post('/employee').send(employee);
+
+    const res = await request(app)
+      .put(`/employee/${data.body.id}`)
+      .send({ salary: 1337.99 });
+    expect(res.status).toBe(200);
+
+    const check = await request(app).get(`/employee/${data.body.id}`);
+
+    expect(check.body.salary).toBe(1337.99);
+  });
+  it('should be able to add a worked day by employee id', async () => {
+    const employee = await factory.attrs('Employee');
+    const data = await request(app).post('/employee').send(employee);
+    const res = await request(app)
+      .put(`/employee/check/${data.body.id}`)
+      .send({ day: new Date() });
+    expect(res.status).toBe(200);
+  });
+  it('should be able to see how much you need to pay to the employee by his id', async () => {
+    const employee = await factory.attrs('Employee');
+    const data = await request(app).post('/employee').send(employee);
+    const res = await request(app)
+      .put(`/employee/pay/${data.body.id}`)
+      .send({ ammount: 2 });
+    expect(res.status).toBe(200);
+    const check = await request(app).get(`/employee/${data.body.id}`);
+    expect(data.body.unpaid - check.body.unpaid).toBe(2);
+  });
+  it('should be able to delete a employee by his id', async () => {
+    const employee = await factory.attrs('Employee');
+    const data = await request(app).post('/employee').send(employee);
+    const res = await request(app).delete(`/employee/${data.body.id}`);
+    expect(res.status).toBe(200);
+  });
+  describe('Validation', async () => {
+    describe('Create', () => {
+      it('should not be able to register an employee without name', async () => {
+        const employee = await factory.attrs('Employee');
+        const res = await request(app)
+          .post('/employee')
+          .send({ ...employee, name: null });
+        expect(res.status).toBe(400);
+      });
+    });
+    describe('Update', () => {
+      it('should not be able to update without providing a id', async () => {
+        const employee = await factory.attrs('Employee');
+
+        await request(app).post('/employee').send(employee);
+
+        const res = await request(app)
+          .put(`/employee/${''}`)
+          .send({ name: 'new name' });
+
+        expect(res.status).toBe(404);
+      });
+      it('should not be able to update a unexistent Employee', async () => {
+        const res = await request(app)
+          .put(`/employee/1337`)
+          .send({ name: 'new name' });
+
+        expect(res.status).toBe(404);
+      });
+    });
+    describe('Delete', () => {
+      it('should not be able to delete without providing a id', async () => {
+        const employee = await factory.attrs('Employee');
+
+        await request(app).post('/employee').send(employee);
+
+        const res = await request(app)
+          .delete(`/employee/${''}`)
+          .send({ name: 'new name' });
+
+        expect(res.status).toBe(404);
+      });
+
+      it('should not be able to delete a unexistent Employee', async () => {
+        const res = await request(app)
+          .delete(`/employee/1337`)
+          .send({ name: 'new name' });
+
+        expect(res.status).toBe(404);
+      });
+    });
+  });
+});
