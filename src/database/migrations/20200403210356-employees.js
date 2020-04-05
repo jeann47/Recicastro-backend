@@ -13,7 +13,6 @@ module.exports = {
       },
       days: {
         type: Sequelize.ARRAY(Sequelize.DATE),
-        // defaultValue: [new Date()],
       },
       salary: {
         type: Sequelize.FLOAT,

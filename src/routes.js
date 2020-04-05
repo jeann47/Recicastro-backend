@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import MaterialController from './app/controllers/MaterialController';
 import EmployeeController from './app/controllers/EmployeeController';
+import StorageController from './app/controllers/StorageController';
 
 const routes = new Router();
 
@@ -19,5 +20,11 @@ routes.put('/employee/:id', EmployeeController.update);
 routes.put('/employee/check/:id', EmployeeController.worked);
 routes.put('/employee/pay/:id', EmployeeController.paid);
 routes.delete('/employee/:id', EmployeeController.delete);
+
+routes.post('/storage', StorageController.store);
+routes.get('/storage/:id', StorageController.index);
+routes.get('/storages', StorageController.list);
+routes.put('/storage/:id', StorageController.update);
+routes.delete('/storage/:id', StorageController.delete);
 
 export default routes;

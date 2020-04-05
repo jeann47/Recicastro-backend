@@ -3,8 +3,9 @@ import conn from '../config/database';
 
 import Materials from '../app/models/Materials';
 import Employees from '../app/models/Employees';
+import Storages from '../app/models/Storages';
 
-const models = [Materials, Employees];
+const models = [Materials, Employees, Storages];
 
 class Database {
   constructor() {
