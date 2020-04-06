@@ -3,6 +3,7 @@ import { Router } from 'express';
 import MaterialController from './app/controllers/MaterialController';
 import EmployeeController from './app/controllers/EmployeeController';
 import StorageController from './app/controllers/StorageController';
+import TransactionController from './app/controllers/TransactionController';
 
 const routes = new Router();
 
@@ -26,5 +27,10 @@ routes.get('/storage/:id', StorageController.index);
 routes.get('/storages', StorageController.list);
 routes.put('/storage/:id', StorageController.update);
 routes.delete('/storage/:id', StorageController.delete);
+
+routes.post('/transaction', TransactionController.store);
+routes.get('/transactions', TransactionController.index);
+routes.put('/transaction/:id', TransactionController.update);
+routes.delete('/transactions/:id', TransactionController.delete);
 
 export default routes;

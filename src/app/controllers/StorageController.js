@@ -98,9 +98,11 @@ class StorageController {
       }
     }
 
-    const stored = await Storage.update(req.body, { where: { id } });
-
-    return res.json(stored);
+    const ok = await Storage.update(req.body, { where: { id } });
+    if (!ok[0]) {
+      return res.status(404).json({ error: 'storage not found' });
+    }
+    return res.json(ok);
   }
 
   async delete(req, res) {
@@ -110,7 +112,9 @@ class StorageController {
     }
 
     const unstored = await Storage.destroy({ where: { id } });
-
+    if (!unstored) {
+      return res.status(404).json({ error: 'storage not found' });
+    }
     return res.json(unstored);
   }
 }
