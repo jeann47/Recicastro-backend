@@ -1,8 +1,8 @@
-import * as Yup from 'yup';
-import sequelize from 'sequelize';
-import Transactions from '../models/Transactions';
-import Materials from '../models/Materials';
-import Storage from '../models/Storages';
+const Yup = require('yup');
+const sequelize = require('sequelize');
+const Transactions = require('../models/Transactions');
+const Materials = require('../models/Materials');
+const Storage = require('../models/Storages');
 
 class TransactionController {
   async store(req, res) {
@@ -157,4 +157,4 @@ class TransactionController {
   }
 }
 
-export default new TransactionController();
+module.exports = new TransactionController();

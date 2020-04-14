@@ -1,10 +1,10 @@
-import * as Yup from 'yup';
-import 'dotenv/config';
-import sequelize from 'sequelize';
-import Storage from '../models/Storages';
-import Material from '../models/Materials';
-import Workflow from '../models/WorkFlow';
-import Employees from '../models/Employees';
+const Yup = require('yup');
+require('dotenv/config');
+const sequelize = require('sequelize');
+const Storage = require('../models/Storages');
+const Material = require('../models/Materials');
+const Workflow = require('../models/WorkFlow');
+const Employees = require('../models/Employees');
 
 class StorageController {
   async store(req, res) {
@@ -134,4 +134,4 @@ class StorageController {
   }
 }
 
-export default new StorageController();
+module.exports = new StorageController();

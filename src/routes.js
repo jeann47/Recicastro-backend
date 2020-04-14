@@ -1,10 +1,10 @@
-import { Router } from 'express';
+const { Router } = require('express');
 
-import MaterialController from './app/controllers/MaterialController';
-import EmployeeController from './app/controllers/EmployeeController';
-import StorageController from './app/controllers/StorageController';
-import TransactionController from './app/controllers/TransactionController';
-import WorkFlowController from './app/controllers/WorkFlowController';
+const MaterialController = require('./app/controllers/MaterialController');
+const EmployeeController = require('./app/controllers/EmployeeController');
+const StorageController = require('./app/controllers/StorageController');
+const TransactionController = require('./app/controllers/TransactionController');
+const WorkFlowController = require('./app/controllers/WorkFlowController');
 
 const routes = new Router();
 
@@ -40,4 +40,4 @@ routes.get('/transactions/:name', TransactionController.index);
 routes.put('/transaction/:id', TransactionController.update);
 routes.delete('/transaction/:id', TransactionController.delete);
 
-export default routes;
+module.exports = routes;

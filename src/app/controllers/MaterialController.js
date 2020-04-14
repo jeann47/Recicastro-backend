@@ -1,6 +1,6 @@
-import * as Yup from 'yup';
-import { Op } from 'sequelize';
-import Materials from '../models/Materials';
+const { Op } = require('sequelize');
+const Yup = require('yup');
+const Materials = require('../models/Materials');
 
 class MaterialController {
   async store(req, res) {
@@ -92,4 +92,4 @@ class MaterialController {
   }
 }
 
-export default new MaterialController();
+module.exports = new MaterialController();

@@ -1,8 +1,8 @@
-import * as Yup from 'yup';
-import Workflow from '../models/WorkFlow';
-import Storage from '../models/Storages';
-import Employee from '../models/Employees';
-import Materials from '../models/Materials';
+const Yup = require('yup');
+const Workflow = require('../models/WorkFlow');
+const Storage = require('../models/Storages');
+const Employee = require('../models/Employees');
+const Materials = require('../models/Materials');
 
 class WorkFlowController {
   async store(req, res) {
@@ -99,4 +99,4 @@ class WorkFlowController {
   }
 }
 
-export default new WorkFlowController();
+module.exports = new WorkFlowController();

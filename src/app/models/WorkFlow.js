@@ -1,4 +1,5 @@
-import Sequelize, { Model } from 'sequelize';
+const Sequelize = require('sequelize');
+const { Model } = require('sequelize');
 
 class Workflow extends Model {
   static init(sequelize) {
@@ -22,5 +23,4 @@ class Workflow extends Model {
     });
   }
 }
-
-export default Workflow;
+module.exports = Workflow;

@@ -1,11 +1,11 @@
-import Sequelize from 'sequelize';
-import conn from '../config/database';
+const Sequelize = require('sequelize');
+const conn = require('../config/database');
 
-import Materials from '../app/models/Materials';
-import Employees from '../app/models/Employees';
-import Storages from '../app/models/Storages';
-import Transactions from '../app/models/Transactions';
-import Workflow from '../app/models/WorkFlow';
+const Materials = require('../app/models/Materials');
+const Employees = require('../app/models/Employees');
+const Storages = require('../app/models/Storages');
+const Transactions = require('../app/models/Transactions');
+const Workflow = require('../app/models/WorkFlow');
 
 const models = [Materials, Storages, Workflow, Employees, Transactions];
 
@@ -24,5 +24,4 @@ class Database {
       );
   }
 }
-
-export default new Database();
+module.exports = new Database();
