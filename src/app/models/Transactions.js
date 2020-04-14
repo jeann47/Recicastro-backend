@@ -4,15 +4,21 @@ class Transaction extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: Sequelize.STRING,
         in_out: Sequelize.BOOLEAN,
         price: Sequelize.FLOAT,
-        ammount: Sequelize.FLOAT,
+        amount: Sequelize.FLOAT,
         note: Sequelize.STRING,
       },
       { sequelize }
     );
     return this;
+  }
+
+  static associate(models) {
+    this.belongsTo(models.Material, {
+      foreignKey: 'material_id',
+      as: 'material',
+    });
   }
 }
 

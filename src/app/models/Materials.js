@@ -8,10 +8,18 @@ class Material extends Model {
         type: Sequelize.STRING,
         buy_price: Sequelize.FLOAT,
         sell_price: Sequelize.FLOAT,
+        amount: Sequelize.FLOAT,
       },
       { sequelize }
     );
     return this;
+  }
+
+  static associate(models) {
+    this.hasMany(models.Transaction, {
+      foreignKey: 'material_id',
+      as: 'stored',
+    });
   }
 }
 

@@ -1,25 +1,22 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('employees', {
+    queryInterface.createTable('workflows', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
+      paid: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
-      days: {
-        type: Sequelize.ARRAY(Sequelize.DATE),
-      },
-      salary: {
-        type: Sequelize.FLOAT,
-      },
-      unpaid: {
+      employee_id: {
         type: Sequelize.INTEGER,
-        defaultValue: 0,
+        references: { model: 'employees', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -31,5 +28,5 @@ module.exports = {
       },
     }),
 
-  down: (queryInterface) => queryInterface.dropTable('employees'),
+  down: (queryInterface) => queryInterface.dropTable('workflows'),
 };

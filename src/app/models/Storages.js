@@ -4,7 +4,7 @@ class Storage extends Model {
   static init(sequelize) {
     super.init(
       {
-        ammount: Sequelize.FLOAT,
+        amount: Sequelize.FLOAT,
         sold: Sequelize.BOOLEAN,
       },
       { sequelize }
@@ -17,9 +17,9 @@ class Storage extends Model {
       foreignKey: 'material_id',
       as: 'material',
     });
-    this.belongsTo(models.Employee, {
-      foreignKey: 'employee_id',
-      as: 'employee',
+    this.belongsTo(models.Workflow, {
+      foreignKey: 'workflow_id',
+      as: 'workflow',
     });
   }
 }

@@ -7,7 +7,7 @@ class MaterialController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       type: Yup.string().required(),
-      buy_price: Yup.number().required(),
+      buy_price: Yup.number(),
       sell_price: Yup.number().required(),
     });
 
@@ -16,7 +16,16 @@ class MaterialController {
     }
 
     const material = await Materials.create(req.body);
-    return res.json(material);
+    const { id, name, type, buy_price, sell_price, createdAt } = material;
+
+    return res.json({
+      id,
+      name,
+      type,
+      buy_price,
+      sell_price,
+      created_at: createdAt,
+    });
   }
 
   async index(req, res) {
@@ -31,7 +40,11 @@ class MaterialController {
   }
 
   async list(req, res) {
-    const materials = await Materials.findAll();
+    const materials = await Materials.findAll({
+      attributes: {
+        exclude: ['createdAt'],
+      },
+    });
 
     return res.json(materials);
   }
@@ -42,6 +55,7 @@ class MaterialController {
       type: Yup.string(),
       buy_price: Yup.number(),
       sell_price: Yup.number(),
+      amount: Yup.number(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -62,14 +76,19 @@ class MaterialController {
   }
 
   async delete(req, res) {
-    const { id } = req.params;
+    try {
+      const { id } = req.params;
 
-    if (!id) return res.status(400).json({ error: 'id not provided' });
+      if (!id) return res.status(400).json({ error: 'id not provided' });
 
-    const material = await Materials.destroy({ where: { id } });
-    if (!material) return res.status(404).json({ error: 'material not found' });
+      const material = await Materials.destroy({ where: { id } });
+      if (!material)
+        return res.status(404).json({ error: 'material not found' });
 
-    return res.json({ deleted: true });
+      return res.json({ deleted: true });
+    } catch (err) {
+      return res.status(401).json(err);
+    }
   }
 }
 

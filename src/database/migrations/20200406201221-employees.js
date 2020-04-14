@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('materials', {
+    queryInterface.createTable('employees', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -11,22 +11,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      type: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      buy_price: {
+      salary: {
         type: Sequelize.FLOAT,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      sell_price: {
-        type: Sequelize.FLOAT,
-        allowNull: false,
-      },
-      amount: {
-        type: Sequelize.FLOAT,
-        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -38,5 +24,5 @@ module.exports = {
       },
     }),
 
-  down: (queryInterface) => queryInterface.dropTable('materials'),
+  down: (queryInterface) => queryInterface.dropTable('employees'),
 };

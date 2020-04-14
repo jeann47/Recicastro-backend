@@ -5,13 +5,18 @@ class Employee extends Model {
     super.init(
       {
         name: Sequelize.STRING,
-        days: Sequelize.ARRAY(Sequelize.DATE),
         salary: Sequelize.FLOAT,
-        unpaid: Sequelize.INTEGER,
       },
       { sequelize }
     );
     return this;
+  }
+
+  static associate(models) {
+    this.hasMany(models.Workflow, {
+      foreignKey: 'employee_id',
+      as: 'workflows',
+    });
   }
 }
 

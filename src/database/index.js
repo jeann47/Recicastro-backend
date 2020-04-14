@@ -5,8 +5,9 @@ import Materials from '../app/models/Materials';
 import Employees from '../app/models/Employees';
 import Storages from '../app/models/Storages';
 import Transactions from '../app/models/Transactions';
+import Workflow from '../app/models/WorkFlow';
 
-const models = [Materials, Employees, Storages, Transactions];
+const models = [Materials, Storages, Workflow, Employees, Transactions];
 
 class Database {
   constructor() {

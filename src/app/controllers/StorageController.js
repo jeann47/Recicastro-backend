@@ -1,39 +1,51 @@
 import * as Yup from 'yup';
+import 'dotenv/config';
+import sequelize from 'sequelize';
 import Storage from '../models/Storages';
 import Material from '../models/Materials';
-import Employee from '../models/Employees';
+import Workflow from '../models/WorkFlow';
+import Employees from '../models/Employees';
 
 class StorageController {
   async store(req, res) {
     const schema = Yup.object().shape({
       material_id: Yup.number().required(),
-      employee_id: Yup.number(),
-      ammount: Yup.number().required(),
+      employee_id: Yup.number().required(),
+      amount: Yup.number().required(),
+      date: Yup.date(),
       sold: Yup.boolean(),
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.json(400).json({ error: 'validation fails' });
+      return res.status(400).json({ error: 'validation fails' });
     }
 
-    const { material_id, employee_id } = req.body;
+    const { material_id, employee_id, date, amount, sold } = req.body;
+
+    const material = await Material.findByPk(material_id);
+
+    if (!material) {
+      return res.status(404).json({ error: 'material not found' });
+    }
+
+    const wf = await Workflow.findOrCreate({
+      where: { employee_id, createdAt: date },
+    });
+
+    const stored = await Storage.create({
+      material_id,
+      workflow_id: wf[0].id,
+      amount,
+      createdAt: date,
+      sold,
+    });
 
     if (material_id) {
-      const material = await Material.findByPk(material_id);
-
-      if (!material) {
-        return res.status(404).json({ error: 'material not found' });
-      }
+      await Material.update(
+        { amount: sequelize.literal(`amount -${amount}`) },
+        { where: { id: material_id } }
+      );
     }
-    if (employee_id) {
-      const employee = await Employee.findByPk(employee_id);
-
-      if (!employee) {
-        return res.status(404).json({ error: 'employee not found' });
-      }
-    }
-
-    const stored = await Storage.create(req.body);
 
     return res.json(stored);
   }
@@ -55,8 +67,18 @@ class StorageController {
           as: 'material',
         },
         {
-          model: Employee,
-          as: 'employee',
+          model: Workflow,
+          as: 'workflow',
+          include: [
+            {
+              model: Storage,
+              as: 'stored',
+            },
+            {
+              model: Employees,
+              as: 'employee',
+            },
+          ],
         },
       ],
     });
@@ -67,8 +89,8 @@ class StorageController {
   async update(req, res) {
     const schema = Yup.object().shape({
       material_id: Yup.number(),
-      employee_id: Yup.number(),
-      ammount: Yup.number(),
+      workflow_id: Yup.number(),
+      amount: Yup.number(),
       sold: Yup.boolean(),
     });
 
@@ -80,22 +102,6 @@ class StorageController {
 
     if (!id) {
       return res.status(400).json({ error: 'id not provided' });
-    }
-    const { material_id, employee_id } = req.body;
-
-    if (material_id) {
-      const material = await Material.findByPk(material_id);
-
-      if (!material) {
-        return res.status(404).json({ error: 'material not found' });
-      }
-    }
-    if (employee_id) {
-      const employee = await Employee.findByPk(employee_id);
-
-      if (!employee) {
-        return res.status(404).json({ error: 'employee not found' });
-      }
     }
 
     const ok = await Storage.update(req.body, { where: { id } });
@@ -109,6 +115,15 @@ class StorageController {
     const { id } = req.params;
     if (!id) {
       return res.status(400).json({ error: 'id not provided' });
+    }
+
+    const stored = await Storage.findByPk(id);
+
+    if (stored) {
+      await Material.update(
+        { amount: sequelize.literal(`amount +${stored.dataValues.amount}`) },
+        { where: { id: stored.dataValues.material_id } }
+      );
     }
 
     const unstored = await Storage.destroy({ where: { id } });

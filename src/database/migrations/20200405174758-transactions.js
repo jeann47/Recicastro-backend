@@ -7,9 +7,12 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
+      material_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'materials', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        allowNull: true,
       },
       in_out: {
         type: Sequelize.BOOLEAN,
@@ -20,7 +23,7 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false,
       },
-      ammount: {
+      amount: {
         type: Sequelize.FLOAT,
         allowNull: false,
       },

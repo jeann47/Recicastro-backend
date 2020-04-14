@@ -10,18 +10,18 @@ module.exports = {
       material_id: {
         type: Sequelize.INTEGER,
         references: { model: 'materials', key: 'id' },
-        onUpdate: 'SET NULL',
-        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+        onDelete: 'NO ACTION',
         allowNull: false,
       },
-      employee_id: {
+      workflow_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'employees', key: 'id' },
-        onUpdate: 'SET NULL',
-        onDelete: 'SET NULL',
-        allowNull: true,
+        references: { model: 'workflows', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'NO ACTION',
+        allowNull: false,
       },
-      ammount: {
+      amount: {
         type: Sequelize.INTEGER,
       },
       sold: {
